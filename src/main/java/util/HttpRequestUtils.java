@@ -1,17 +1,34 @@
 package util;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.RequestHandler;
 
 public class HttpRequestUtils {
     private static final Logger log = LoggerFactory.getLogger(HttpRequestUtils.class);
+
+    public static User createUser(String param) {
+        Map<String, String> paramMap = parseQueryString(param);
+
+        User user = new User(
+                paramMap.get("userId"),
+                paramMap.get("password"),
+                paramMap.get("name"),
+                paramMap.get("email")
+        );
+
+        return user;
+    }
+
 
     public static String getUrl(String firstLine) {
         String[] splited = firstLine.split(" ");

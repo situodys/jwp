@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 
+import model.User;
 import org.junit.Test;
 
 import util.HttpRequestUtils.Pair;
@@ -69,5 +70,22 @@ public class HttpRequestUtilsTest {
         String header = "Content-Length: 59";
         Pair pair = HttpRequestUtils.parseHeader(header);
         assertThat(pair, is(new Pair("Content-Length", "59")));
+    }
+
+    @Test
+    public void parseUserInfo() throws Exception{
+        //give
+        String url = "userId=lee&password=1234&name=lee&email=test%40test.com";
+        //when
+
+        User expectedUser = new User("lee", "1234", "lee", "test%40test.com");
+        User createdUser = HttpRequestUtils.createUser(url);
+        //then
+//        assertThat(createdUser,is(expectedUser));
+        assertThat(createdUser.getUserId(),is(expectedUser.getUserId()));
+        assertThat(createdUser.getPassword(),is(expectedUser.getPassword()));
+        assertThat(createdUser.getName(),is(expectedUser.getName()));
+        assertThat(createdUser.getEmail(),is(expectedUser.getEmail()));
+
     }
 }
